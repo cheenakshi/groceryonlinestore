@@ -7,18 +7,19 @@ This project is an online grocery store application developed using Python and F
 **Features**
 
   **User Side:**
+  
     **Product Listing:** Users can browse through a wide range of products.
     **Add to Cart:** Easily add products to the shopping cart.
     **Manage Cart:** View and update the cart, including quantity adjustments and product removals.
     **Order Placement:** Place orders securely and efficiently.
     **Payment Gateway Integration:** Secure payment processing for orders.
     
-**Admin Side:**
+ **Admin Side:**
 
-  **Admin Panel:** A comprehensive panel for administrators to manage the store.
-  **Product Management:** Add new products, update existing products, and manage product prices.
-  **Inventory Management:** Oversee product inventory and ensure stock availability.
-  **Order Management:** Track and manage customer orders.
+   **Admin Panel:** A comprehensive panel for administrators to manage the store.
+   **Product Management:** Add new products, update existing products, and manage product prices.
+   **Inventory Management:** Oversee product inventory and ensure stock availability.
+   **Order Management:** Track and manage customer orders.
 
 **Technologies Used**
 
