@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <link rel="stylesheet" type="text/css" href="/ui/css/home.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet">
+   <style>
+
+
+   </style>
+
+</head>
+
+<body>
+   <!-- navigation -->
+   <nav class="navigation">
+
+      <!-- logo -->
+      <a href="/ui/home.html" class="logo">GRID</a>
+      <!-- menu -->
+      <ul class="menu">
+         <li><a href="/ui/home.html" class="active">Home</a></li>
+         <li><a href="#category">Category</a></li>
+         <li><a href="#">Our Packages</a></li>
+         <li><a href="#">Our App</a></li>
+
+      </ul>
+      <!-- right-nav-(cart-like) -->
+      <div class="right-nav">
+         <!-- like -->
+         <a href="#" class="like"><i class="fa-brands fa-gripfire"></i>
+            <span>0</span></a>
+         <!-- cart -->
+         <a href="/ui/cart.html" class="cart"><i class="fa-solid fa-cart-shopping"></i>
+            <span>0</span></a>
+
+         <!-- login -->
+         <a href="/ui/login.html" class="login" id="loginIcon"><i class="fa-solid fa-user"></i></a>
+
+         <div class="user-dropdown" id="userDropdown" style="display: none;">
+            <span id="username"></span>
+            <div id="userOptions">
+               <ul class="list">
+                  <li value="profile" onClick="handleOptionChange(event)">Profile</li>
+                  <li value="logout" onClick="handleOptionChange(event)">Logout</li>
+               </ul>
+            </div>
+         </div>
+
+      </div>
+
+   </nav>
+   <!-- nav end -->
+   <!-- search banner -->
+   <section id="search-banner">
+      <!-- bg -->
+      <img src="images/bg-1.png" class="bg-1" id="bg">
+      <img src="images/bg-2.png" class="bg-2" id="bg">
+      <!-- text -->
+      <div class="search-banner-text">
+         <h1>Order Your Daily Groceries</h1>
+         <strong>#Free Delivery</strong>
+         <!-- search box -->
+         <form action="" class="search-box">
+            <!-- icon -->
+            <i class="fas fa-search"></i>
+            <!-- input -->
+            <input type="text" class="search-input" placeholder="Search your daily Groceries" name="search" required>
+            <!-- btn -->
+            <input type="submit" class="search-btn" value="Search">
+         </form>
+      </div>
+   </section>
+   <!-- category -->
+   <section id="category">
+      <!-- heading -->
+      <div class="category-heading">
+         <h2>Category</h2>
+         <span>All</span>
+      </div>
+
+      <!-- box-container -->
+      <div class="category-container">
+         <!-- box -->
+         <a href="/ui/products.html?id=Fish" class="category-box">
+            <img src="images/fish.png" alt="Fish">
+            <span>Fish & Meat</span>
+         </a>
+         <!-- box -->
+         <a href="/ui/products.html?id=vegetables" class="category-box">
+            <img src="images/Vegetables.png" alt="Vegetables">
+            <span>Vegetables</span>
+         </a>
+         <!-- box -->
+         <a href="/ui/products.html?id=medicine" class="category-box">
+            <img src="images/medicine.png" alt="Medicine">
+            <span>Medicine</span>
+         </a>
+         <!-- box -->
+         <a href="/ui/products.html?id=baby" class="category-box">
+            <img src="images/baby.png" alt="Baby">
+            <span>Baby</span>
+         </a>
+         <!-- box -->
+         <a href="/ui/products.html?id=stationary" class="category-box">
+            <img src="images/office.png" alt="stationary">
+            <span>Stationary</span>
+         </a>
+         <!-- box -->
+         <a href="/ui/products.html?id=beauty" class="category-box">
+            <img src="images/beauty.png" alt="Beauty">
+            <span>Beauty</span>
+         </a>
+         <!-- box -->
+         <a href="/ui/products.html?id=gardening" class="category-box">
+            <img src="images/Gardening.png" alt="Gardening">
+            <span>Gardening</span>
+         </a>
+      </div>
+   </section>
+   <!-- partner logo -->
+   <section id="partner">
+      <!-- heading -->
+      <div class="partner-heading">
+         <h3>Our Trusted Partner</h3>
+      </div>
+      <!-- logo-container -->
+      <div class="logo-container">
+         <img src="images/logo-1.png" alt="logo">
+         <img src="images/logo-2.png" alt="logo">
+         <img src="images/logo-3.png" alt="logo">
+         <img src="images/logo-4.png" alt="logo">
+      </div>
+   </section>
+   <!-- logo-section-end -->
+
+   <!-- download app -->
+   <section id="download-app">
+      <!-- img -->
+      <div class="app-img">
+         <img src="images/mobile-app.png" alt="app">
+      </div>
+      <!-- text -->
+      <div class="download-app-text">
+         <strong>Download App</strong>
+         <p1>Download the app for greater access and easy sjopping</p1>
+
+         <!-- btns -->
+         <div class="download-btns">
+            <a href="#"><img src="images/appstore-btn.png" alt=""></a>
+            <a href="#"><img src="images/googleplay-btn.png" alt=""></a>
+         </div>
+      </div>
+
+   </section>
+  <script src="./js/custom/common.js"></script>
+</body>
+
+</html>

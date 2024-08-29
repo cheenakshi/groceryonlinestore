@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your stylesheet here -->
+    <style>
+        /* Basic styling for demonstration purposes */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .section {
+            background: #fff;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .address,
+        .payment-method,
+        .item-delivery {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background: #218838;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Preformatted text for textarea */
+        textarea {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Checkout</h1>
+
+        <!-- Delivery Address Section -->
+        <div class="section address">
+            <h2>1. Select a Delivery Address</h2>
+            <form id="address-form">
+                <div class="form-group">
+                    <label for="address">Your Addresses:</label>
+                    <input type="text" id="address" name="address" placeholder="Enter your address" required>
+                </div>
+                <div class="form-group">
+                    <button type="button" onclick="addNewAddress()">Add a new address</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Payment Method Section -->
+        <div class="section payment-method">
+            <h2>2. Payment Method</h2>
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="payment-method">Choose a payment method:</label>
+                    <select id="payment-method" name="payment-method" required>
+                        <option value="credit-card">Credit Card</option>
+                        <option value="debit-card">Debit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="cod">Cash on Delivery</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <!-- Items and Delivery Details Section -->
+        <div class="section item-delivery">
+            <h2>3. Items and Delivery</h2>
+            <form id="items-form">
+                <div class="form-group">
+                    <label for="items">Item Details:</label>
+                    <textarea id="items" name="items" rows="5" readonly>
+Item 1: Example Product 1 - Quantity: 1 - ₹100.00
+Item 2: Example Product 2 - Quantity: 2 - ₹200.00
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Place Order</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Address Modal -->
+        <div id="addressModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h2>Add a New Address</h2>
+                <form id="new-address-form">
+                    <div class="form-group">
+                        <label for="new-address">Address:</label>
+                        <input type="text" id="new-address" name="new-address" placeholder="Enter your new address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-city">City:</label>
+                        <input type="text" id="new-city" name="new-city" placeholder="Enter your City" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-state">State:</label>
+                        <input type="text" id="new-state" name="new-state" placeholder="Enter your state" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-zip">ZIP Code:</label>
+                        <input type="text" id="new-zip" name="new-zip" placeholder="Enter your ZIP code" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Save Address</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const address = document.getElementById('address');
+        const token = JSON.parse(localStorage.getItem('userData'));
+        const fetchAddress = "http://127.0.0.1:5000/getAddress";
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                const data = await fetch(fetchAddress, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token.access_token}`
+                    }
+                });
+                const response = await data.json();
+                address.value = response.address || '';
+            } catch (error) {
+                console.error('Error fetching address:', error);
+            }
+        });
+
+        const modal = document.getElementById("addressModal");
+
+        function addNewAddress() {
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Handle new address form submission
+        document.getElementById('new-address-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Handle the submission logic here, e.g., send new address to the server
+            closeModal();
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- 
+<!DOCTYPE html>
+<html>
+<head>
+    <title> GSMS </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="csrf-token" content="kmapods5wQ5L1hn7rcR9OPst7EsN0gC7SrHh3m9K"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,300,600,700">
+    <link media="all" type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+    <link media="all" type="text/css" rel="stylesheet" href="css/style.css?v=1.0">
+    <link media="all" type="text/css" rel="stylesheet" href="css/custom.css?v=1.3.3">
+</head>
+<body class="tooltips">
+<div class="container">
+
+    <div class="header content rows-content-header">
+        <button class="button-menu-mobile show-sidebar">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="navbar navbar-default" role="navigation">
+            <div class="container">
+
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav visible-lg visible-md limit-chars">
+                        <ul class="breadcrumb">
+                            <a href="index.html">
+                                <i class="zmdi zmdi-view-dashboard zmdi-hc-fw" data-toggle="tooltip" data-placement="bottom" title="Dashboard"></i>
+                            </a>
+                            <a href="manage-product.html">
+                                <i class="zmdi zmdi-assignment zmdi-hc-fw" data-toggle="tooltip" data-placement="bottom" title="Products"></i>
+                            </a>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right content-page">
+        <div class="body content rows scroll-y">
+            <form action="">
+                <div class="box-info full" id="taskFormContainer">
+                    <h2>New Order
+                        <input name="customerName" id="customerName" type="text" class="form-control" placeholder="Customer Name" style="max-width:230px; float: right;margin-top: -11px">
+                    </h2>
+                    <div class="row" style="margin-bottom: 5px;margin-top: -10px;">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <label >Product</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label >Price</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <label >Quantity</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label >Total</label>
+                                <button class="btn btn-sm btn-primary pull-right" style="margin-top: -5px" type="button" id="addMoreButton">Add More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-box-extra" id="itemsInOrder">
+
+                </div>
+
+                <div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="box-info full p-3 mb-3 mt-0">
+                                <div class="col-sm-9 text-right">
+                                    <span><b>Total</b></span>
+                                </div>
+                                <div class="col-sm-3">
+                                    <b><input id="product_grand_total" name="product_grand_total" class="product-grand-total" value="0.0"></input> Rs</b>
+                                    <button class="btn btn-sm btn-primary pull-right" type="button" id="saveOrder">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="product-box">
+    
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/custom/order.js"></script>
+</html> -->
