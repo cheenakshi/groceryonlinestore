@@ -1,9 +1,9 @@
-**Online Grocery Store Application
-Overview**
+**Online Grocery Store Application**
+**Overview**
 This project is an online grocery store application developed using Python and Flask. The application provides a seamless shopping experience for users, allowing them to browse products, add items to their cart, and place orders. It also includes an admin panel for efficient store management.
 
-**Features
-  User Side:**
+**Features**
+  **User Side:**
     **Product Listing:** Users can browse through a wide range of products.
     **Add to Cart:** Easily add products to the shopping cart.
     **Manage Cart:** View and update the cart, including quantity adjustments and product removals.
