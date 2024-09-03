@@ -15,7 +15,7 @@ def add_profile(connection, data):
 
 def fetch_email(connection, data):
     cursor = connection.cursor()
-    query = "SELECT email FROM gs.signup WHERE signup_id = %s"
+    query = "SELECT email FROM signup WHERE signup_id = %s"
     profile_data = (data['signup_id'],)
     cursor.execute(query, profile_data)
     result = cursor.fetchone()

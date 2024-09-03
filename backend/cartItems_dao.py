@@ -8,26 +8,6 @@ def addToCarts(connection, data):
     connection.commit()
     return cursor.lastrowid
 
-
-# def showItems(connection):
-#     cursor = connection.cursor()
-#     query = 'SELECT p.product_id, p.name, p.price_per_unit, p.category, p.image_url, c.cartItemId, c.quantity FROM gs.products p join gs.cartitems c on p.product_id = c.product_id'
-#     cursor.execute(query)
-#     results = cursor.fetchall()
-#     items =[]
-#     for row in results:
-#         item={
-#             'product_id':row[0],
-#             'name':row[1],
-#             'price_per_unit':row[2],
-#             'category' :row[3],
-#             'image_url':row[4],
-#             'cartItemId':row[5],
-#             'quantity':row[6]
-#         }
-#         items.append(item)
-#     return items
-
 def showItems(connection, user_id):
     cursor = connection.cursor()
     query = '''

@@ -2,7 +2,10 @@ from sql_connection import get_sql_connection
 import bcrypt
 
 def hash_password(password):
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    # Generate a salt and hash the password
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    # Convert the hash to a string format suitable for storing in the database
+    return hashed_password.decode('utf-8')
 
 def signup_acc(connection, data):
     cursor = connection.cursor()

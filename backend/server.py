@@ -5,11 +5,12 @@ import product_doa, uom_dao, order_dao
 from signup import signup_acc
 from login import login_acc
 from cartItems_dao import addToCarts, showItems, deleteItem
-from order_dao import fetch_address
+from order_dao import fetch_address, updateAddress, fetchItems
 from sql_connection import get_sql_connection
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required , get_jwt_identity
 from datetime import timedelta
+from category import fetch_category
 
 app = Flask(__name__)
 # Configure JWT
@@ -150,8 +151,25 @@ def update_address():
     user_id = current_user.get('user_id')
     request_payload = request.get_json()
     request_payload["user_id"] = user_id
+    response = updateAddress(connection, request_payload)
+    result = jsonify({
+        "message":response
+    })
+    return result
 
+@app.route('/fetchItems', methods=['GET'])
+@jwt_required()
+def show_cart():
+    current_user = get_jwt_identity()
+    user_id = current_user.get('user_id')
+    cart_response = fetchItems(connection, user_id)
+    response=jsonify(cart_response)
+    return response
 
+@app.route('/getCategories', methods=['GET'])
+def get_category():
+    response = fetch_category(connection)
+    return response
 if __name__ == "__main__":
     print("Starting grocery management system ")
     app.run(port= 5000)

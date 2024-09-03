@@ -38,8 +38,8 @@ def login_acc(connection, email, password):
         # Fetch password, name, signup_id, and user_id in one query
         query = '''
             SELECT s.password, s.name, s.signup_id, u.user_id 
-            FROM gs.signup s 
-            LEFT JOIN gs.user_profiles u ON s.signup_id = u.signup_id 
+            FROM signup s 
+            LEFT JOIN user_profiles u ON s.signup_id = u.signup_id 
             WHERE s.email = %s
         '''
         cursor.execute(query, (email,))
